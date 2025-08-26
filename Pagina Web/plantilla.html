@@ -1,80 +1,269 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Página Web Sencilla</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav {
-            background-color: #444;
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-        }
-        section {
-            padding: 20px;
-            margin: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GΛMING — Tu portal gamer</title>
+  <meta name="description" content="Portal gaming con reseñas, noticias y comunidad." />
+  <link rel="icon" href="data:," />
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --bg-soft: #11141a;
+      --card: #151a22;
+      --text: #e6e8ee;
+      --muted: #9aa3b2;
+      --primary: #7c3aed; /* morado */
+      --accent: #22d3ee;  /* cian */
+      --success: #22c55e; /* verde */
+      --danger: #ef4444;  /* rojo */
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(600px 1000px at 85% 50%, rgba(124,58,237,.25), transparent 30%),
+                  radial-gradient(600px 1000px at 18% 60%, rgba(34,211,238,.15), transparent 29%),
+                  var(--bg);
+      line-height: 2.6;
+    }
+
+    /* Layout helpers */
+    .container { width: min(1000px, 92%); margin-inline: auto; }
+    .grid { display: grid; gap: 1.2rem; }
+    .flex { display: flex; gap: 1rem; }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(to bottom, rgba(11,13,16,.85), rgba(11,13,16,.55));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav { display:flex; align-items:center; justify-content:space-between; padding: .9rem 0; }
+    .brand { display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.6px; }
+    .logo {
+      width: 34px; height: 34px; border-radius: 10px; background:
+        conic-gradient(from 200deg at 50% 50%, var(--accent), var(--primary) 55%, var(--accent));
+      box-shadow: 0 0 0 2px rgba(255,255,255,.06), 0 10px 25px rgba(124,58,237,.3);
+    }
+    nav a { color: var(--muted); text-decoration: none; font-weight: 600; padding: .6rem .8rem; border-radius: 999px; }
+    nav a:hover, nav a:focus { color: var(--text); background: rgba(124,58,237,.14); outline: none; }
+
+    .cta-btn {
+      appearance: none; border: 0; cursor: pointer; font-weight: 800; letter-spacing:.3px;
+      padding: .75rem 1rem; border-radius: 999px; color: #0b0d10; background: linear-gradient(135deg, var(--accent), var(--success));
+      box-shadow: var(--shadow);
+      transition: transform .15s ease, filter .2s ease;
+    }
+    .cta-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+
+    /* Hero */
+    .hero { position: relative; padding: 5.5rem 0 3.5rem; }
+    .hero .eyebrow { color: var(--accent); font-weight: 800; font-size: .9rem; letter-spacing:.12em; }
+    .hero h1 { font-size: clamp(2rem, 4vw + 1rem, 3.3rem); margin: .5rem 0 1rem; line-height: 1.1; }
+    .hero p { color: var(--muted); max-width: 65ch; }
+    .hero-actions { margin-top: 1.2rem; display:flex; gap: .8rem; flex-wrap: wrap; }
+    .hero .ghost { border: 1px solid rgba(255,255,255,.12); color: var(--text); background: transparent; }
+
+    .hero-art {
+      margin-top: 2rem;
+      display:grid; grid-template-columns: repeat(2, 0.5fr); gap: 1rem;
+    }
+
+    .cover {
+      position: relative; border-radius: var(--radius); aspect-ratio: 8.5; overflow:hidden; background: var(--card);
+      box-shadow: var(--shadow); isolation:isolate;
+    }
+    .cover:before { content:""; position:absolute; inset:0; background: linear-gradient(135deg, rgba(124,58,237,.35), rgba(34,211,238,.25)); mix-blend-mode: overlay; }
+    .cover .tag { position:absolute; left:.7rem; top:.7rem; font-size:.75rem; font-weight:800; background: rgba(0,0,0,.5); padding:.35rem .55rem; border-radius: 999px; border:1px solid rgba(255,255,255,.12); }
+
+    /* Secciones */
+    section { padding: 2.6rem 0; }
+    .section-title { font-size: 1.6rem; margin: 0 0 .8rem; }
+    .muted { color: var(--muted); }
+
+    /* Cards */
+    .cards { display:grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .card { background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .card .thumb { aspect-ratio: 16/9; background: radial-gradient(120% 80% at 30% 0%, rgba(124,58,237,.35), transparent 60%),
+                                        radial-gradient(120% 80% at 90% 30%, rgba(34,211,238,.25), transparent 60%),
+                                        #0f131a; }
+    .card .content { padding: 1rem; }
+    .chip { font-size:.72rem; font-weight:800; letter-spacing:.04em; text-transform:uppercase; background: rgba(124,58,237,.18); padding:.35rem .55rem; border-radius:999px; border:1px solid rgba(124,58,237,.35); }
+
+    /* Newsletter */
+    .newsletter { background: linear-gradient(180deg, rgba(124,58,237,.12), rgba(34,211,238,.12)); border:1px solid rgba(255,255,255,.1); border-radius: var(--radius); padding: 1.2rem; box-shadow: var(--shadow); }
+    .newsletter form { display:flex; gap:.6rem; flex-wrap: wrap; }
+    .newsletter input[type="email"] {
+      flex: 1; min-width: 220px; padding:.8rem .9rem; border-radius: 12px; border:1px solid rgba(255,255,255,.15); background: #0f131a; color: var(--text);
+    }
+    .newsletter button { padding: .85rem 1rem; border-radius: 12px; border: 0; font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--accent)); color:#0b0d10; cursor:pointer; }
+
+    /* Footer */
+    footer { border-top: 1px solid rgba(255,255,255,.06); padding: 2rem 0; color: var(--muted); }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .hero-art { grid-template-columns: fr 1fr; }
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      nav { display:none; }
+      .hero-art { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; }
+      .hero { padding-top: 3rem; }
+    }
+  </style>
 </head>
 <body>
-
-    <header>
-        <h1>Mi Página Web Sencilla</h1>
-    </header>
-
-    <nav>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand" aria-label="GΛMING">
+        <div class="logo" aria-hidden="true"></div>
+        <span>GΛMING</span>
+      </div>
+      <nav aria-label="Principal" class="flex">
         <a href="#inicio">Inicio</a>
-        <a href="#servicios">Servicios</a>
+        <a href="#juegos">Juegos</a>
+        <a href="#noticias">Noticias</a>
+        <a href="#comunidad">Comunidad</a>
         <a href="#contacto">Contacto</a>
-    </nav>
+      </nav>
+      <button class="cta-btn">Únete gratis</button>
+    </div>
+  </header>
 
-    <section id="inicio">
-        <h2>Bienvenido a mi página web</h2>
-        <p>Esta es una página web sencilla para mostrar cómo se estructura con HTML.</p>
-    </section>
+  <!-- Hero -->
+  <main id="inicio" class="container hero">
+    <p class="eyebrow">Gaming_DB</p>
+    <h1>Reseñas, noticias y la comunidad que <span style="background:linear-gradient(90deg,var(--accent),var(--primary));-webkit-background-clip:text;background-clip:text;color:transparent">vive</span> los videojuegos</h1>
+    <p class="muted">Bienvenido a tu base de datos gamer. Averigua La popularidad de los juegos actuales y otros datos curiosos.</p>
+    <div class="hero-actions">
+      <button class="cta-btn">Explorar juegos</button>
+    </div>
 
-    <section id="servicios">
-        <h2>Servicios</h2>
-        <p>Ofrecemos diversos servicios como desarrollo web, diseño gráfico y marketing digital.</p>
-    </section>
+    <div class="hero-art" aria-label="Juegos destacados">
+      <div class="cover" role="img" aria-label="Portada juego A">
+        <span class="tag">Top 1</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego B">
+        <span class="tag">Nuevo</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego C">
+        <span class="tag">Indie</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego A">
+        <span class="tag">Top 1</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego B">
+        <span class="tag">Nuevo</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego C">
+        <span class="tag">Indie</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego A">
+        <span class="tag">Top 1</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego B">
+        <span class="tag">Nuevo</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego C">
+        <span class="tag">Indie</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego A">
+        <span class="tag">Top 1</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego B">
+        <span class="tag">Nuevo</span>
+      </div>
+      <div class="cover" role="img" aria-label="Portada juego C">
+        <span class="tag">Indie</span>
+      </div>
+    </div>
+  </main>
 
-    <section id="contacto">
-        <h2>Contacto</h2>
-        <p>Si tienes alguna pregunta, no dudes en ponerte en contacto con nosotros.</p>
-    </section>
+  <!-- Juegos destacados -->
+  <section id="juegos">
+    <div class="container">
+      <h2 class="section-title">Juegos destacados</h2>
+      <p class="muted">Una selección rápida para empezar a jugar y discutir con la comunidad.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="thumb" role="img" aria-label="Captura de juego 1"></div>
+          <div class="content">
+            <div class="chip">Acción</div>
+            <h3>Project Nebula</h3>
+            <p class="muted">Combates espaciales tácticos y progresión cooperativa. Ideal para escuadras.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb" role="img" aria-label="Captura de juego 2"></div>
+          <div class="content">
+            <div class="chip" style="background:rgba(34,211,238,.18); border-color:rgba(34,211,238,.35)">RPG</div>
+            <h3>Echoes of Dawn</h3>
+            <p class="muted">Mundo abierto con sistemas de crafteo profundos y narrativa ramificada.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="thumb" role="img" aria-label="Captura de juego 3"></div>
+          <div class="content">
+            <div class="chip" style="background:rgba(34,197,94,.18); border-color:rgba(34,197,94,.35)">Indie</div>
+            <h3>Pixel Drift</h3>
+            <p class="muted">Arcade de precisión con tablas de clasificación y fantasma de rivales.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        <p>&copy; 2025 Mi Página Web. Todos los derechos reservados.</p>
-    </footer>
+  
 
+  <!-- Comunidad / Newsletter -->
+  <section id="comunidad">
+    <div class="container newsletter">
+      <div class="grid" style="grid-template-columns: 1.2fr .8fr; align-items: center;">
+        <div>
+          <h2 class="section-title" style="margin:0">Únete a la comunidad</h2>
+          <p class="muted">Recibe torneos, ofertas y actualizaciones semanales. Sin spam, lo prometemos.</p>
+        </div>
+        <form action="#" method="post" aria-label="Suscripción al boletín">
+          <label class="sr-only" for="email">Correo</label>
+          <input id="email" type="email" name="email" placeholder="tu@correo.com" required />
+          <button type="submit">Suscribirme</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto">
+    <div class="container">
+      <h2 class="section-title">Contacto</h2>
+      <p class="muted">¿Tienes sugerencias o quieres colaborar? Escríbenos a <a href="mailto:hola@gaming.dev" style="color:var(--accent)">hola@gaming.dev</a>.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container flex" style="justify-content:space-between; align-items:center; flex-wrap:wrap;">
+      <div class="flex" aria-label="Enlaces sociales">
+        <a href="#" class="muted" aria-label="Discord" style="text-decoration:none">Discord</a>
+        <a href="#" class="muted" aria-label="Twitch" style="text-decoration:none">Twitch</a>
+        <a href="#" class="muted" aria-label="YouTube" style="text-decoration:none">YouTube</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Año dinámico (opcional)
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
